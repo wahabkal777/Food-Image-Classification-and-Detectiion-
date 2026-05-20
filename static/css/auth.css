@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+  --bg-primary: #060617;
+  --bg-secondary: linear-gradient(180deg, rgba(4,4,8,0.35), rgba(4,4,8,0.1));
+  --text-primary: #ecf8ff;
+  --text-secondary: rgba(235,245,255,0.85);
+  --accentA: #00eaff;
+  --accentB: #36ff7c;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.06);
+  --input-bg: rgba(0,0,0,0.6);
+  --input-border: rgba(0,234,255,0.35);
+  --input-focus: #36ff7c;
+  --btn-bg: rgba(0,234,255,0.15);
+  --btn-hover: rgba(0,234,255,0.3);
+  --card-bg: rgba(255,255,255,0.06);
+  --card-border: rgba(255,255,255,0.12);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Poppins",sans-serif;
+}
+
+/* ======================
+   BODY
+====================== */
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* ======================
+   CONTAINER
+====================== */
+.container{
+  width:90%;
+  max-width:420px;
+  padding:32px 36px;
+  background: var(--card-bg);
+  border-radius:14px;
+  backdrop-filter:blur(10px);
+  border:1px solid var(--card-border);
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  animation:fadeIn .6s ease forwards;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(25px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ======================
+   TITLE
+====================== */
+.title{
+  font-size:30px;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:24px;
+  color:var(--accentB);
+}
+
+/* ======================
+   INPUTS
+====================== */
+.input-box{
+  margin-bottom:18px;
+  position:relative;
+}
+
+.input-box input{
+  width:100%;
+  padding:12px 46px 12px 14px;
+  background: var(--input-bg);
+  border:1px solid var(--input-border);
+  border-radius:8px;
+  color: var(--text-primary);
+  font-size:15px;
+  outline:none;
+  transition:.25s;
+}
+
+.input-box input::placeholder{
+  color: var(--text-secondary);
+}
+
+.input-box input:focus{
+  border-color: var(--input-focus);
+  box-shadow:0 0 0 2px rgba(54,255,124,.2);
+}
+
+.input-box i{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color: var(--accentA);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.input-box i:hover{
+  color: var(--accentB);
+}
+
+/* ======================
+   BUTTON (SIMPLE GLASS)
+====================== */
+.btn{
+  width:100%;
+  padding:12px;
+  background: var(--btn-bg);
+  border:1px solid var(--input-border);
+  border-radius:8px;
+  color: var(--text-primary);
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn:hover{
+  background: var(--btn-hover);
+  color: var(--bg-primary);
+  transform:translateY(-2px);
+  border-color: var(--accentB);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ======================
+   BOTTOM TEXT
+====================== */
+.bottom-text{
+  text-align:center;
+  margin-top:16px;
+  font-size:14px;
+  color: var(--text-secondary);
+}
+
+.bottom-text a{
+  color: var(--accentA);
+  text-decoration:none;
+  font-weight:500;
+}
+
+.bottom-text a:hover{
+  text-decoration:underline;
+  color: var(--accentB);
+}
+
+/* ======================
+   FLASH MESSAGES
+====================== */
+.flash, .alert, .alert-success, .alert-danger{
+  padding:14px 18px;
+  margin:0 auto 18px;
+  border-radius:10px;
+  font-weight:600;
+  text-align:center;
+  font-size:15px;
+  border:1px solid var(--card-border);
+  animation:flashIn .4s ease forwards;
+  max-width:90%;
+  width:100%;
+}
+
+.flash.error, .alert-danger{
+  background:rgba(255,78,80,.25);
+  color:var(--text-primary);
+  border-color:rgba(255,78,80,.5);
+}
+
+.flash.success, .alert-success{
+  background:rgba(54,255,124,.25);
+  color:var(--accentB);
+  border-color:rgba(54,255,124,.5);
+}
+
+.theme-toggle{
+  position:fixed;
+  top:20px;
+  right:20px;
+  cursor:pointer;
+  font-size:24px;
+  color: var(--accentA);
+  z-index:1000;
+  transition:all 0.3s ease;
+}
+
+.theme-toggle:hover{
+  color: var(--accentB);
+  transform:scale(1.1);
+}
+
+@keyframes flashIn{
+  from{opacity:0;transform:translateY(-15px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ======================
+   MOBILE
+====================== */
+@media(max-width:450px){
+  .container{
+    padding:26px;
+  }
+}
+
+
+

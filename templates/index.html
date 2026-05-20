@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- FONT AWESOME ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!--StyleSheet  -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <style>
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 1rem;
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal-window {
+        background: #111;
+        color: #fff;
+        border-radius: 16px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+        padding: 1.5rem;
+        position: relative;
+      }
+      .modal-window h2 {
+        margin: 0 0 1rem;
+        font-size: 1.4rem;
+        letter-spacing: 0.02em;
+      }
+      .modal-window .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+      .modal-window ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .modal-window li {
+        padding: 0.65rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+      }
+      .modal-window li:last-child {
+        border-bottom: none;
+      }
+      .modal-window .modal-note {
+        margin-top: 1rem;
+        color: #c8c8c8;
+        font-size: 0.95rem;
+      }
+    </style>
+
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo-image">
+    </div>
+
+    <ul class="nav-links">
+       
+        <li><a href="{{ url_for('classification') }}">Classification</a></li>
+        <li><a href="{{ url_for('detection') }}">Detection</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+
+
+    </ul>
+
+    {% if username %}
+    <div class="welcome-message">
+        Welcome :  {{ username }}
+    </div>
+    {% endif %}
+
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-palette"></i>
+    </div>
+</div>
+  <section class="hero">
+      <canvas id="hero-animation"></canvas> <!-- Hero background animation -->
+    <div class="hero-text">
+        <h1>
+            Food Image <span class="fixed">Classification &</span>
+            <span class="changing" id="changing-text"></span>
+        </h1>
+        <p class="subline">A smart system to classify and detect food items using AI & Deep Learning.</p>
+        <div class="buttons">
+            <button class="btn login" type="button" onclick="showClassesModal('classification')">Classes for Classification</button>
+            <button class="btn login" type="button" onclick="showClassesModal('detection')">Classes for Detection</button>
+        </div>
+    </div>
+    <div id="classesModal" class="modal-overlay" onclick="closeClassesModal(event)">
+      <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="classesModalTitle">
+        <button type="button" class="modal-close" onclick="hideClassesModal()" aria-label="Close">×</button>
+        <h2 id="classesModalTitle">Class List</h2>
+        <ul id="classesModalList"></ul>
+        <p class="modal-note">Only the selected model class names are shown here.</p>
+      </div>
+    </div>
+    <div class="hero-image">
+        <img src="{{ url_for('static', filename='images/hero.png') }}" alt="Logo" >
+    </div>
+</section>
+
+
+
+<section class="purpose-section" id="about">
+  <div class="purpose-container">
+    <div class="purpose-text">
+      <h2>Our Purpose</h2>
+      <p>
+        The purpose of this project is to develop a robust Food Image Classification and Detection system
+        for accurate identification of various food items. Using advanced image processing and deep learning
+        techniques, this system aims to assist in automatic food recognition, tracking dietary habits,
+        and improving food-related applications in healthcare, nutrition, and AI-powered culinary tools.
+      </p>
+    </div>
+    <div class="purpose-image">
+    <img src="{{ url_for('static', filename='images/4.jpg') }}" alt="Logo"  class="pre-img">
+  
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- ================= PREPROCESSING SECTION ================= -->
+<section class="preprocess" id="preprocessing">
+    <div class="preprocess-left">
+        <h2 class="pre-title">Preprocessing</h2>
+        <p class="pre-desc">
+            Before classification & detection, food images are enhanced using 
+            advanced preprocessing techniques to improve model accuracy.
+        </p>
+        <ul class="pre-list">
+            <li><i class="fa-solid fa-wand-magic-sparkles icon"></i> Noise Removal</li>
+            <li><i class="fa-solid fa-expand icon"></i> Normalization & Resizing</li>
+            <li><i class="fa-solid fa-vector-square icon"></i> Edge Detection & Labeling</li>
+            <li><i class="fa-solid fa-microchip icon"></i> Feature Extraction</li>
+        </ul>
+    </div>
+    <div class="preprocess-right">
+        <img src="{{ url_for('static', filename='images/preprocess.jpg') }}" alt="Logo"  class="pre-img">
+    </div>
+</section>
+<!-- ================= CLASSIFICATION SECTION ================= -->
+<section class="classification" id="classification">
+    <div class="class-left">
+        <h2 class="class-title">Classification</h2>
+        <p class="class-desc">
+            Our AI model classifies food images into categories with high accuracy,
+            using advanced deep learning techniques trained on thousands of food examples.
+        </p>
+        <ul class="class-list">
+            <li><i class="fa-solid fa-tags c-icon"></i> Multi-Class Label Prediction</li>
+            <li><i class="fa-solid fa-brain c-icon"></i> High Accuracy Deep Learning Models</li>
+            <li><i class="fa-solid fa-bolt c-icon"></i> Real-Time Food Classification</li>
+            <li><i class="fa-solid fa-chart-pie c-icon"></i> Smart Confidence Score Display</li>
+        </ul>
+    </div>
+    <div class="class-right">
+        <img src="{{ url_for('static', filename='images/clasification.jpg') }}" alt="Logo" class="class-img">
+    </div>
+</section>
+<!-- ================= DETECTION SECTION ================= -->
+<section class="classification" id="classification">
+    <div class="class-left">
+        <h2 class="class-title">Detection</h2>
+        <p class="class-desc">
+            Our AI model detects food items in images with high precision,
+            identifying multiple objects and their locations using advanced deep learning models.
+        </p>
+        <ul class="class-list">
+            <li><i class="fa-solid fa-object-group c-icon"></i> Multi-Object Detection</li>
+            <li><i class="fa-solid fa-crosshairs c-icon"></i> Accurate Bounding Box Localization</li>
+            <li><i class="fa-solid fa-bolt c-icon"></i> Real-Time Food Detection</li>
+            <li><i class="fa-solid fa-chart-line c-icon"></i> Confidence Score for Each Object</li>
+        </ul>
+    </div>
+    <div class="class-right">
+        <img src="{{ url_for('static', filename='images/detection.png') }}" alt="Detection Image" class="class-img">
+    </div>
+</section>
+
+          
+
+<!-- FOOTER SECTION -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-about">
+            <h2>Food AI System</h2>
+            <p>Smart Food Classification & Detection using Deep Learning.</br>
+               A Final Year Project built with passion & innovation.</p>
+        </div>
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul class="nav-links1">
+                <li ><a href="#"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="#preprocessing"><i class="fa-solid fa-wand-sparkles" id="footericon"></i> Preprocessing</a></li>
+                <li><a href="#classification"><i class="fa-solid fa-tags" id="footericon"></i> Classification</a></li>
+                <li><a href="#Classes"><i class="fa-solid fa-envelope" id="footericon"></i> Classes</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h3>Contact</h3>
+            <p><i class="fa-solid fa-envelope"></i> Email: support@foodai.com</p>
+            <p><i class="fa-solid fa-phone"></i> Phone: +92 300 0000000</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footerbottom">© 2025 Food Image AI — All Rights Reserved.</p>
+    </div>
+</footer>
+
+
+
+
+<script>
+const classificationClasses = [
+  'Bread', 'Dairy', 'Dessert', 'Egg', 'Fried Food', 'Fruit',
+  'Meat', 'Noodles', 'Rice', 'Seafood', 'Soup', 'Vegetable'
+];
+const detectionClasses = [
+  'Banana', 'Apple', 'Orange', 'Pizza', 'Hot dog',
+  'Cake', 'Donut', 'Sandwich', 'Broccoli', 'Carrot'
+];
+
+function showClassesModal(type) {
+  const modal = document.getElementById('classesModal');
+  const title = document.getElementById('classesModalTitle');
+  const list = document.getElementById('classesModalList');
+  const classes = type === 'detection' ? detectionClasses : classificationClasses;
+
+  title.textContent = type === 'detection' ? 'Detection Classes' : 'Classification Classes';
+  list.innerHTML = classes.map(name => `<li>${name}</li>`).join('');
+  modal.classList.add('show');
+}
+
+function hideClassesModal() {
+  document.getElementById('classesModal').classList.remove('show');
+}
+
+function closeClassesModal(event) {
+  if (event.target.id === 'classesModal') {
+    hideClassesModal();
+  }
+}
+
+const hamburger = document.querySelector(".hamburger");
+const navLinks = document.querySelector(".nav-links");
+
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+  hamburger.classList.toggle("active"); // optional X animation
+});
+</script>
+
+
+     <script src="{{ url_for('static', filename='js/herotxt.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/canvashero.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

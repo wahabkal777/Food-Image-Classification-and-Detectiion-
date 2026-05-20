@@ -1,0 +1,209 @@
+/* -----------------------
+   ADVANCED PROFESSIONAL NAVBAR
+-------------------------*/
+
+/* -----------------------
+   CSS VARIABLES
+-------------------------*/
+:root {
+  --bg-primary: #060617;
+  --bg-secondary: linear-gradient(180deg, rgba(4,4,8,0.35), rgba(4,4,8,0.1));
+  --text-primary: #ecf8ff;
+  --text-secondary: rgba(235,245,255,0.85);
+  --accentA: #00eaff;
+  --accentB: #36ff7c;
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.06);
+  --navbar-bg: linear-gradient(90deg, rgba(57, 131, 138, 0.12), rgba(54,255,124,0.12));
+  --hero-bg: linear-gradient(120deg, rgba(6,10,27,0.85), rgba(10,8,29,0.9));
+  --blob1: linear-gradient(45deg, rgba(0,234,255,0.18), rgba(54,255,124,0.12));
+  --blob2: linear-gradient(45deg, rgba(54,255,124,0.12), rgba(0,234,255,0.18));
+  --input-bg: rgba(0,0,0,0.6);
+  --input-border: rgba(0,234,255,0.35);
+  --input-focus: #36ff7c;
+  --btn-bg: rgba(0,234,255,0.15);
+  --btn-hover: rgba(0,234,255,0.3);
+  --card-bg: rgba(255,255,255,0.06);
+  --card-border: rgba(255,255,255,0.12);
+  --img-shadow: 0 24px 60px rgba(0,234,255,0.08);
+  --img-bg: rgba(0,0,0,0.3);
+}
+
+/* -----------------------
+   GLOBAL RESET
+-------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--bg-primary, #000); 
+    color: var(--text-primary, #fff);
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* -----------------------
+   NAVBAR CONTAINER
+-------------------------*/
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: var(--navbar-bg, linear-gradient(90deg, rgba(57, 131, 138, 0.12), rgba(54,255,124,0.12)));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px); /* glassy effect */
+    animation: navbarFadeIn 1.5s ease forwards;
+    transition: background 0.5s ease;
+}
+
+/* -----------------------
+   LOGO STYLING
+-------------------------*/
+.logo img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 2px solid #36ff7c;
+    padding: 4px;
+    animation: logoBorder 4s linear infinite;
+}
+
+/* LOGO ANIMATION */
+@keyframes logoBorder {
+    0%{ border-color: #36ff7c; }
+    25%{ border-color: #00eaff; }
+    50%{ border-color: #ff6b00; }
+    75%{ border-color: #ff0080; }
+    100%{ border-color: #36ff7c; }
+}
+
+/* -----------------------
+   NAV LINKS
+-------------------------*/
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+/* NAV LINKS ITEMS */
+.nav-links li {
+    position: relative;
+}
+
+/* NAV LINKS A TAG */
+.nav-links li a {
+    color: var(--text-primary, #fff);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+/* HOVER EFFECTS */
+.nav-links li a:hover {
+    background: linear-gradient(120deg, var(--accentA, #00eaff), var(--accentB, #36ff7c), var(--accentA, #00eaff));
+    color: var(--bg-primary, #000);
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(255,255,255,0.4);
+}
+
+/* ICONS INSIDE LINKS */
+.nav-links li a i {
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+/* HOVER ICON EFFECT */
+.nav-links li a:hover i {
+    transform: rotate(20deg) scale(1.2);
+    color: #fff;
+}
+
+/* -----------------------
+   THEME TOGGLE
+-------------------------*/
+.theme-toggle {
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--accentA, #00eaff);
+    transition: all 0.3s ease;
+    margin-left: 20px;
+}
+
+.theme-toggle:hover {
+    color: var(--accentB, #36ff7c);
+    transform: scale(1.1);
+}
+
+.theme-toggle i {
+    transition: transform 0.3s ease;
+}
+
+/* -----------------------
+   WELCOME MESSAGE
+-------------------------*/
+.welcome-message {
+    background: linear-gradient(120deg, var(--accentA, #00eaff), var(--accentB, #36ff7c));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 16px;
+    margin-left: 20px;
+    box-shadow: 0 0 12px rgba(255,255,255,0.4);
+}
+@media (max-width: 992px) {
+    .navbar {
+        padding: 0 25px;
+    }
+    .nav-links li a {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+    .logo img {
+        height: 45px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 20px;
+        gap: 10px;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+    .nav-links li a {
+        width: 100%;
+        justify-content: center;
+    }
+    .welcome-message {
+        order: -1; /* Move welcome message to top in mobile */
+        margin-left: 0;
+        text-align: center;
+    }
+}

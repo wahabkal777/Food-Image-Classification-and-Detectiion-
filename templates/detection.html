@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Detection</title>
+
+  <style>
+    :root {
+      --bg: #050707;
+      --bg-2: #0b1110;
+      --card: rgba(12, 18, 17, 0.78);
+      --card-border: rgba(0, 255, 153, 0.18);
+      --text: #e7fff6;
+      --muted: #93a9a0;
+      --green: #00ff9d;
+      --green-2: #00d47f;
+      --cyan: #00ffd5;
+      --red: #ff5d73;
+      --shadow: 0 0 20px rgba(0, 255, 157, 0.18), 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(0, 255, 157, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(0, 255, 213, 0.10), transparent 22%),
+        linear-gradient(180deg, #030404 0%, var(--bg) 45%, #040606 100%);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(transparent 0%, rgba(255,255,255,0.02) 50%, transparent 100%);
+      opacity: 0.35;
+      animation: shimmer 10s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateY(-8px); }
+      50% { transform: translateY(8px); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(3, 5, 5, 0.72);
+      border-bottom: 1px solid rgba(0, 255, 157, 0.10);
+    }
+
+    .top-bar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: var(--text);
+    }
+
+    .brand-badge {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 14px var(--green), 0 0 32px rgba(0, 255, 157, 0.55);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.25); opacity: 0.7; }
+    }
+
+    .home-btn {
+      text-decoration: none;
+      color: var(--text);
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 157, 0.22);
+      background: linear-gradient(135deg, rgba(0, 255, 157, 0.08), rgba(0, 255, 213, 0.06));
+      box-shadow: var(--shadow);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .home-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: rgba(0, 255, 157, 0.55);
+      background: linear-gradient(135deg, rgba(0, 255, 157, 0.16), rgba(0, 255, 213, 0.10));
+      box-shadow: 0 0 25px rgba(0, 255, 157, 0.22), 0 15px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 34px 20px 90px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      text-align: center;
+      margin: 18px auto 30px;
+      padding: 18px 8px 8px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: 0.3px;
+      text-shadow: 0 0 18px rgba(0, 255, 157, 0.18);
+    }
+
+    .hero p {
+      margin: 14px auto 0;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .accent {
+      color: var(--green);
+      text-shadow: 0 0 12px rgba(0, 255, 157, 0.35);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+      position: relative;
+      transform: translateY(0);
+      animation: rise 0.9s ease both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,255,157,0.07), transparent 34%, rgba(0,255,213,0.05));
+      pointer-events: none;
+    }
+
+    .card-inner {
+      padding: 28px;
+    }
+
+    .upload-area {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .file-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px dashed rgba(0, 255, 157, 0.35);
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.28s ease, transform 0.28s ease, background 0.28s ease;
+      min-height: 68px;
+    }
+
+    .file-box:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 255, 157, 0.65);
+      background: rgba(0, 255, 157, 0.04);
+    }
+
+    .file-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(0, 255, 157, 0.2), rgba(0, 255, 213, 0.12));
+      color: var(--green);
+      box-shadow: 0 0 18px rgba(0, 255, 157, 0.18);
+      flex: 0 0 auto;
+      font-size: 1.2rem;
+    }
+
+    .file-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .file-text strong {
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .file-text span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .choose-btn,
+    .upload-btn,
+    .mini-btn {
+      cursor: pointer;
+      border: none;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+    }
+
+    .choose-btn {
+      padding: 14px 18px;
+      color: #03110a;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: 0 0 18px rgba(0, 255, 157, 0.22);
+      min-width: 160px;
+    }
+
+    .choose-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 28px rgba(0, 255, 157, 0.34);
+    }
+
+    .upload-btn {
+      margin-top: 18px;
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1rem;
+      color: #02110a;
+      background: linear-gradient(135deg, #00ff9d, #00e7c7);
+      box-shadow: 0 0 20px rgba(0, 255, 157, 0.24);
+      letter-spacing: 0.3px;
+    }
+
+    .upload-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(0, 255, 157, 0.34);
+    }
+
+    .upload-btn:active {
+      transform: translateY(0);
+      opacity: 0.92;
+    }
+
+    .status {
+      margin: 16px 0 0;
+      min-height: 24px;
+      color: var(--green);
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      text-shadow: 0 0 10px rgba(0, 255, 157, 0.22);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .panel {
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 157, 0.14);
+      background: rgba(255,255,255,0.025);
+      padding: 18px;
+      min-height: 280px;
+      transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .panel:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 255, 157, 0.30);
+      box-shadow: 0 0 24px rgba(0, 255, 157, 0.08);
+    }
+
+    .panel h3 {
+      margin: 0 0 14px;
+      font-size: 1.05rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel h3::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(0, 255, 157, 0.4);
+    }
+
+    .preview-wrap,
+    .result-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .image-box {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 255, 157, 0.12);
+      background: linear-gradient(180deg, rgba(0,255,157,0.03), rgba(255,255,255,0.01));
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .image-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(0,255,157,0.06), transparent);
+      transform: translateX(-100%);
+      animation: scan 4s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% { transform: translateX(-100%); }
+      45% { transform: translateX(100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .image-box img {
+      max-width: 100%;
+      max-height: 320px;
+      display: none;
+      object-fit: contain;
+    }
+
+    .placeholder {
+      color: var(--muted);
+      text-align: center;
+      padding: 18px;
+      line-height: 1.7;
+    }
+
+    #labels {
+      margin-top: 4px;
+    }
+
+    #labels ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    #labels li {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(0, 255, 157, 0.05);
+      border: 1px solid rgba(0, 255, 157, 0.12);
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+
+    #labels li:hover {
+      transform: translateX(3px);
+      border-color: rgba(0, 255, 157, 0.28);
+      background: rgba(0, 255, 157, 0.08);
+    }
+
+    .label-name {
+      font-weight: 700;
+    }
+
+    .label-confidence {
+      color: var(--green);
+      white-space: nowrap;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .float-actions {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 60;
+    }
+
+    .float-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 255, 157, 0.22);
+      background: rgba(7, 12, 11, 0.82);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      backdrop-filter: blur(12px);
+      font-size: 1rem;
+    }
+
+    .float-btn:hover {
+      transform: translateY(-3px) scale(1.06);
+      border-color: rgba(0, 255, 157, 0.58);
+      background: rgba(0, 255, 157, 0.08);
+      box-shadow: 0 0 22px rgba(0, 255, 157, 0.16), 0 12px 28px rgba(0,0,0,0.45);
+    }
+
+    .float-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 255, 157, 0.25);
+      border-top-color: var(--green);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .upload-area {
+        grid-template-columns: 1fr;
+      }
+
+      .card-inner {
+        padding: 20px;
+      }
+
+      .home-btn {
+        padding: 10px 14px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .top-bar-inner {
+        padding: 12px 14px;
+      }
+
+      .brand {
+        font-size: 0.95rem;
+      }
+
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+
+      .hero p {
+        font-size: 0.95rem;
+      }
+
+      .panel {
+        min-height: auto;
+      }
+
+      .float-actions {
+        right: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div class="brand">
+        <span class="brand-badge"></span>
+        <span>Food Detection System</span>
+      </div>
+
+      <a class="home-btn" href="{{ url_for('index') }}">
+        ← Back to Home
+      </a>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <div class="hero">
+      <h1><span class="accent">Smart</span> Detection Dashboard</h1>
+      <p>
+        Upload an image and let the system detect objects with a clean neon interface,
+        smooth transitions, and a modern dark theme.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="upload-area">
+          <label class="file-box" for="imageInput">
+            <div class="file-icon">⬆</div>
+            <div class="file-text">
+              <strong>Choose an image</strong>
+              <span id="fileName">No file selected yet</span>
+            </div>
+          </label>
+
+          <label class="choose-btn" for="imageInput">Browse Image</label>
+          <input type="file" id="imageInput" accept="image/*" />
+        </div>
+
+        <button class="upload-btn" onclick="uploadImage()">
+          Upload & Detect
+        </button>
+
+        <p id="status" class="status"></p>
+
+        <div class="grid">
+          <div class="panel">
+            <h3>Selected Image</h3>
+            <div class="preview-wrap">
+              <div class="image-box">
+                <img id="previewImage" alt="Preview" />
+                <div class="placeholder" id="previewPlaceholder">
+                  Your selected image will appear here.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Detection Result</h3>
+            <div class="result-wrap">
+              <div class="image-box">
+                <img id="resultImage" alt="Result" />
+                <div class="placeholder" id="resultPlaceholder">
+                  Detection output will appear here.
+                </div>
+              </div>
+              <div id="labels"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-note">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="float-actions">
+    <button class="float-btn" onclick="scrollToTop()" title="Go to top">↑</button>
+    <button class="float-btn" onclick="scrollToBottom()" title="Go to bottom">↓</button>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const previewImage = document.getElementById("previewImage");
+    const resultImage = document.getElementById("resultImage");
+    const labelsDiv = document.getElementById("labels");
+    const statusText = document.getElementById("status");
+    const fileName = document.getElementById("fileName");
+    const previewPlaceholder = document.getElementById("previewPlaceholder");
+    const resultPlaceholder = document.getElementById("resultPlaceholder");
+
+    imageInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        previewImage.src = URL.createObjectURL(file);
+        previewImage.style.display = "block";
+        previewPlaceholder.style.display = "none";
+        fileName.textContent = file.name;
+      } else {
+        previewImage.style.display = "none";
+        previewPlaceholder.style.display = "block";
+        fileName.textContent = "No file selected yet";
+      }
+    });
+
+    async function uploadImage() {
+      const file = imageInput.files[0];
+
+      if (!file) {
+        alert("Please select an image first.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      statusText.innerHTML = '<span class="loading"><span class="spinner"></span> Processing image...</span>';
+      labelsDiv.innerHTML = "";
+      resultImage.style.display = "none";
+      resultPlaceholder.style.display = "block";
+
+      try {
+        const response = await fetch("/detect", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          statusText.innerText = data.error || "Error occurred";
+          return;
+        }
+
+        resultImage.src = data.result_image + "?t=" + new Date().getTime();
+        resultImage.style.display = "block";
+        resultPlaceholder.style.display = "none";
+
+        if (!data.detections || data.detections.length === 0) {
+          labelsDiv.innerHTML = "<p style='color:#93a9a0;margin-top:10px;'>No objects detected.</p>";
+        } else {
+          let html = "<h4 style='margin:14px 0 10px;color:#e7fff6;'>Detected Objects</h4><ul>";
+          data.detections.forEach(d => {
+            html += `<li><span class="label-name">${d.label}</span><span class="label-confidence">${d.confidence}%</span></li>`;
+          });
+          html += "</ul>";
+          labelsDiv.innerHTML = html;
+        }
+
+        statusText.innerText = "Done";
+      } catch (error) {
+        statusText.innerText = "Upload failed";
+        console.error(error);
+      }
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function scrollToBottom() {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>

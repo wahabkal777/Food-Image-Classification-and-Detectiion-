@@ -1,0 +1,123 @@
+{
+  "Bread": {
+    "restaurants": [
+      { "name": "15 Restaurants Chain", "link": "https://www.eatthis.com/restaurant-best-bread/" }
+    ],
+    "blogs": [
+      { "title": "Bread Blogs", "link": "https://bloggers.feedspot.com/bread_blogs/" }
+    ],
+    "description": "Bread is one of the most common energy-providing foods and is rich in carbohydrates that help fuel the body throughout the day. Whole grain and brown bread contain fiber, vitamins, and minerals that support digestion and heart health. Eating bread in moderate amounts is beneficial for maintaining energy levels, especially during breakfast or lunch. A healthy diet usually includes 2–4 slices of whole wheat bread daily depending on age, activity level, and calorie needs. Excessive intake of white bread may contribute to weight gain due to refined flour and lower fiber content."
+  },
+
+  "Dairy": {
+    "restaurants": [
+      { "name": "Dairy Shop", "link": "https://niu.com.pk/" }
+    ],
+    "blogs": [
+      { "title": "Dairy Nutrition Blogs", "link": "https://www.nutritionadvance.com/dairy-products/" }
+    ],
+    "description": "Dairy products such as milk, yogurt, cheese, and butter are rich sources of calcium, protein, and vitamin D which help strengthen bones and teeth. Dairy foods are especially important for growing children, athletes, and older adults who require strong bone support. Consuming 1–3 servings of dairy products daily is generally recommended for a balanced diet. Low-fat dairy options can help reduce unhealthy fat intake while still providing essential nutrients. Regular dairy consumption may also support muscle recovery and overall body growth."
+
+  },
+
+  "Dessert": {
+    "restaurants": [
+      { "name": "Dessert Shop", "link": "https://crispelle.com/" }
+    ],
+    "blogs": [
+      { "title": "Dessert Blogs", "link": "https://bloggers.feedspot.com/dessert_blogs/" }
+    ],
+    "description": "Desserts are sweet treats that can be enjoyed as a delightful end to a meal or as a special indulgence. While they should be consumed in moderation due to their sugar and fat content, some desserts can offer nutritional benefits. For example, fruit-based desserts provide vitamins and antioxidants, while dark chocolate desserts contain flavonoids that may support heart health."
+  },
+
+  "Egg": {
+    "restaurants": [
+      { "name": "Egg Shop", "link": "https://www.organicvalley.pk/" }
+    ],
+    "blogs": [
+      { "title": "Egg Health Blogs", "link": "https://www.fresheggsdaily.blog/" }
+    ],
+    "description": "Eggs are a highly nutritious food that provides high-quality protein, essential vitamins, and minerals. They are an excellent source of choline, which supports brain health, and contain antioxidants like lutein and zeaxanthin that promote eye health. Eating eggs in moderation can be part of a healthy diet, with 1–2 eggs per day being a common recommendation for most people. Eggs can be prepared in various ways, making them a versatile ingredient for meals throughout the day."
+  },
+
+  "Fried Food": {
+    "restaurants": [
+      { "name": "Fried Food Restaurant", "link": "https://www.foodpanda.pk/restaurant/a6fc/punjab-tikka-shop-millat-road" }
+    ],
+    "blogs": [
+      { "title": "Fried Food Blogs", "link": "https://iamafoodblog.com/category/recipes/food/chicken-recipes/fried-chicken/" }
+    ],
+    "description": "Fried foods are typically high in calories, unhealthy fats, and sodium, which can contribute to weight gain and increase the risk of heart disease when consumed in excess. While they can be enjoyed occasionally as a treat, it is important to limit fried food intake and opt for healthier cooking methods such as baking, grilling, or steaming for regular meals. Choosing air-fried options or using healthier oils can also help reduce the negative health impacts of fried foods."
+  },
+
+  "Fruit": {
+    "restaurants": [
+      { "name": "Fruit Shop", "link": "https://www.cybo.com/PK/faisalabad/fruits-and-vegetables/" }
+    ],
+    "blogs": [
+      { "title": "Fruit Nutrition Blogs", "link": "https://bloggers.feedspot.com/fruit_blogs/" }
+    ],
+    "description": "Fruits are naturally sweet and packed with essential vitamins, minerals, antioxidants, and fiber that support overall health. Regular fruit consumption can help reduce the risk of chronic diseases such as heart disease, diabetes, and certain cancers. It is generally recommended to eat at least 2–4 servings of fruit daily for optimal health benefits. Fresh fruits are the best choice, but frozen or canned fruits without added sugars can also be nutritious options."
+  },
+
+  "Meat": {
+    "restaurants": [
+      { "name": "Meat Shop", "link": "https://heypakistani.com/best-meat-shop-in-faisalabad/" }
+    ],
+    "blogs": [
+      { "title": "Meat Nutrition Blogs", "link": "https://bloggers.feedspot.com/meat_blogs/" }
+    ],
+    "description": "Meat is a rich source of high-quality protein, essential amino acids, vitamins (especially B vitamins), and minerals such as iron and zinc. Consuming lean cuts of meat in moderation can support muscle growth, repair, and overall health. However, it is important to limit the intake of processed meats and choose healthier cooking methods to reduce the risk of heart disease and certain cancers associated with high consumption of red and processed meats."
+
+  },
+
+  "Noodles": {
+    "restaurants": [
+      { "name": "Noodle House", "link": "https://indomie.com.pk/" }
+    ],
+    "blogs": [
+      { "title": "Noodles Blogs", "link": "https://www.noodleblog.com/" }
+    ],
+    "description": "Noodles are a popular carbohydrate-rich food that can be part of a balanced diet when consumed in moderation. Whole grain or vegetable-based noodles provide more nutrients and fiber compared to refined versions. It is important to pair noodles with protein sources and vegetables to create a more nutritious meal. Limiting the intake of instant noodles, which are often high in sodium and unhealthy fats, can help maintain better health."
+  },
+
+  "Rice": {
+    "restaurants": [
+      { "name": "Rice Shop", "link": "https://www.alnoor.com.pk/" }
+    ],
+    "blogs": [
+      { "title": "Rice Blogs", "link": "https://bloggers.feedspot.com/rice_industry_blogs/" }
+    ],
+    "description": "Rice is a staple food for billions of people worldwide and a good source of energy. It is a primary source of carbohydrates and can be part of a balanced diet when consumed in moderation. Brown rice and other whole grain varieties provide more fiber, vitamins, and minerals compared to white rice. Choosing diverse rice preparations and pairing them with protein and vegetables can enhance their nutritional value."
+  },
+
+  "Seafood": {
+    "restaurants": [
+      { "name": "Seafood Restaurant", "link": "https://www.cybo.com/PK/faisalabad/seafood-stores/" }
+    ],
+    "blogs": [
+      { "title": "Seafood Blogs", "link": "https://bloggers.feedspot.com/seafood_blogs/" }
+    ],
+    "description": "Seafood is a excellent source of lean protein, omega-3 fatty acids, and essential nutrients like iodine and selenium. Regular consumption of seafood can support heart health, brain function, and overall well-being. It is recommended to choose a variety of seafood and prepare it using healthy cooking methods to maximize its nutritional benefits."
+  },
+
+  "Soup": {
+    "restaurants": [
+      { "name": "Soup Kitchen", "link": "https://www.eatsoupshop.com/" }
+    ],
+    "blogs": [
+      { "title": "Soup Blogs", "link": "https://bloggers.feedspot.com/soup_blogs/" }
+    ],
+    "description": "Soup can be a nutritious and comforting meal option, especially when made with wholesome ingredients like vegetables, lean proteins, and whole grains. It is often low in calories and can help increase vegetable intake. Choosing broth-based soups over cream-based ones can further enhance the health benefits while keeping calorie and fat content in check."
+  },
+
+  "Vegetable": {
+    "restaurants": [
+      { "name": "Green Veg Restaurant", "link": "https://www.freshdirect.com/fresh_produce/d/veg" }
+    ],
+    "blogs": [
+      { "title": "Vegetable Blogs", "link": "https://bloggers.feedspot.com/vegetable_gardening_blogs/" }
+    ],
+    "description": "Vegetables are essential components of a healthy diet because they provide vitamins, minerals, antioxidants, and fiber. Regular vegetable intake supports digestion, heart health, and immune system function while helping maintain healthy body weight. Experts recommend consuming a variety of vegetables daily, including leafy greens, carrots, broccoli, and tomatoes. Fresh and lightly cooked vegetables preserve more nutrients compared to heavily fried preparations. A diet rich in vegetables can reduce the risk of many chronic diseases."
+  }
+}
